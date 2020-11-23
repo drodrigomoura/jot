@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+### PHP Container #########################################
+  jotphp:
+    container_name: jot_php
+    hostname: jot_php
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/html/app
+    volumes:
+      - .:/var/www/html/app
+    depends_on:
+      - jotdb
+
+  ### NGINX Container #########################################
+  jotnginx:
+    container_name: jot_nginx
+    hostname: jot_nginx
+    image: nginx:1.17
+    restart: unless-stopped
+    depends_on:
+      - jotphp
+    ports:
+      - 5002:80
+    volumes:
+      - .:/var/www/html/app
+      - ./docker/virtualhost.conf:/etc/nginx/conf.d/default.conf
+
+### POSTGRESS Container #########################################
+  jotdb:
+    container_name: jot_db
+    hostname: jot_db
+    image: postgres:11
+    restart: always
+    environment:
+      POSTGRES_DB: jot
+      POSTGRES_USER: jot-user
+      POSTGRES_PASSWORD: secret
+      PGPASSWORD: secret
+    ports:
+      - '54323:5432'
