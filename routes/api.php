@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// Route::apiResource('contacts', 'ContactsController');
+Route::post('/contacts', 'ContactsController@store')->name('contacts.store');
+Route::get('/contacts/{contact}', 'ContactsController@show')->name('contacts.show');
+Route::patch('/contacts/{contact}', 'ContactsController@update')->name('contacts.update');
+Route::delete('/contacts/{contact}', 'ContactsController@destroy')->name('contacts.destroy');
