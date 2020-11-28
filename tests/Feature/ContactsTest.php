@@ -65,7 +65,7 @@ class ContactsTest extends TestCase
         $this->assertEquals('test@email.com', $contact->email);
         $this->assertEquals('05/14/1988', $contact->birthday->format('m/d/Y'));
         $this->assertEquals('ABC String', $contact->company);
-        $response->assertStatus(Response::HTTP_ACCEPTED);
+        $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJson([
             'data' => [
                 'contact_id' => $contact->id

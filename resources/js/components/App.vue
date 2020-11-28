@@ -19,7 +19,7 @@
           <!-- Create -->
           <p class="pt-12 text-gray-500 text-xs uppercase font-bold">Create</p>
           <router-link
-            to="/"
+            to="/contacts/create"
             class="flex items-center py-2 hover:text-blue-600 text-sm"
           >
             <svg viewBox="0 0 24 24" class="fill-current text-blue-600 w-5 h-5">
@@ -101,6 +101,23 @@
 <script>
 export default {
   name: "App",
+  
+  props: [
+    'user'
+  ],
+
+  mounted(){
+    window.axios.interceptors.request.use(
+      (config) => {
+        config.data = {
+          ...config.data,
+          api_token: this.user.api_token
+        };
+
+        return config;
+      }
+    )
+  }
 };
 </script>
 

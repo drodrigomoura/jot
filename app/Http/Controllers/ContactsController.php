@@ -19,9 +19,9 @@ class ContactsController extends Controller
     {
         $this->authorize('create', Contact::class);
         $contact = request()->user()->contacts()->create($this->validateData());
-        return (new ContactResource($contact))
+        return (new ContactResource($contact))  
             ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+            ->setStatusCode(Response::HTTP_CREATED);
     }
 
     public function show(Contact $contact)
