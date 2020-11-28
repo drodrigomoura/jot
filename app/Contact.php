@@ -11,13 +11,16 @@ class Contact extends Model
     
     protected $dates = ['birthday'];
 
-    // public function getBirthdayAttribute($birthday)
-    // {
-    //     return Carbon::parse($birthday)->format('d/m/Y');
-    // }
+    public function path(){
+        return url("/contacts/{$this->id}");
+    }
 
     public function setBirthdayAttribute($birthday)
     {
         $this->attributes['birthday'] = Carbon::parse($birthday);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

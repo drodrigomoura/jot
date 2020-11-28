@@ -21,7 +21,7 @@ services:
     hostname: jot_nginx
     image: nginx:1.17
     restart: unless-stopped
-    depends_on:
+    depends_on: 
       - jotphp
     ports:
       - 5002:80
