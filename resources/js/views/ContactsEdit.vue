@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="flex justify-between">
+      <a class="text-blue-400" @click="$router.back()"> < Back </a>
+    </div>
+
     <form @submit.prevent="handleSubmit">
       <InputField
         name="name"
@@ -7,6 +11,7 @@
         placeholder="Contact Name"
         @update:field="form.name = $event"
         :errors="errors"
+        :data="form.name"
       />
       <InputField
         name="email"
@@ -14,6 +19,7 @@
         placeholder="Contact Email"
         @update:field="form.email = $event"
         :errors="errors"
+        :data="form.email"
       />
       <InputField
         name="company"
@@ -21,6 +27,7 @@
         placeholder="Company"
         @update:field="form.company = $event"
         :errors="errors"
+        :data="form.company"
       />
       <InputField
         name="birthday"
@@ -28,6 +35,7 @@
         placeholder="MM/DD/YYYY"
         @update:field="form.birthday = $event"
         :errors="errors"
+        :data="form.birthday"
       />
       <div class="flex justify-end">
         <button
@@ -38,7 +46,7 @@
         <button
           class="bg-blue-500 py-2 px-4 text-white rounded hover:bg-blue-400"
         >
-          Add New Contact
+          Save
         </button>
       </div>
     </form>
@@ -48,10 +56,26 @@
 <script>
 import InputField from "../components/InputField";
 export default {
-  name: "ContactsCreate",
+  name: "ContactsEdit",
 
   components: {
     InputField,
+  },
+
+  mounted() {
+    axios
+      .get(`/api/contacts/${this.$route.params.id}`)
+      .then((res) => {
+        this.form = res.data.data;
+        console.log(this.form);
+        this.loading = false;
+      })
+      .catch((err) => {
+        this.loading = false;
+        if (err.response.status === 404) {
+          this.$router.push("/contacts");
+        }
+      }); 
   },
 
   data: () => {
@@ -65,14 +89,15 @@ export default {
       errors: null,
     };
   },
+
   methods: {
     handleSubmit() {
       axios
-        .post("/api/contacts", this.form)
-        .then(res => {
+        .patch(`/api/contacts/${this.$route.params.id}`, this.form)
+        .then((res) => {
           this.$router.push(res.data.links.self);
         })
-        .catch(errors => {
+        .catch((errors) => {
           this.errors = errors.response.data.errors;
         });
     },

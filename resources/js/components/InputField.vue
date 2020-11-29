@@ -22,7 +22,7 @@
 export default {
   name: "InputField",
 
-  props: ["name", "label", "placeholder", "errors"],
+  props: ["name", "label", "placeholder", "errors", "data"],
 
   data: () => {
     return {
@@ -60,6 +60,12 @@ export default {
       }
     }
   },
+
+  watch:{
+    data: function(val) {
+      this.value=val;
+    }
+  }
 };
 </script>
 
