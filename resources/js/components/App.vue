@@ -67,7 +67,7 @@
             Settings
           </p>
           <router-link
-            to="/"
+            to="/logout"
             class="flex items-center py-2 hover:text-blue-600 text-sm"
           >
             <svg viewBox="0 0 24 24" class="fill-current text-blue-600 w-5 h-5">
@@ -83,7 +83,7 @@
         <div
           class="h-16 px-6 border-b border-gray-400 flex items-center justify-between"
         >
-          <div>Lastest Contact</div>
+          <div>{{ title }}</div>
           <div class="flex items-center">
             <SearchBar/>
             <UserCircle :name="user.name" />
@@ -111,6 +111,8 @@ export default {
   },
 
   created() {
+    this.title = this.$route.meta.title;
+
     window.axios.defaults.headers.common["Authorization"] =
       "Bearer " + this.user.api_token;
 
@@ -135,6 +137,22 @@ export default {
     //  return config;
     // });
   },
+
+  data(){
+    return {
+      title: ''
+    }
+  },
+
+  watch:{
+    $route(to, from){
+      this.title = to.meta.title;
+    },
+
+    title(){
+      document.title = `${this.title} | Jot - The SPA App`
+    }
+  }
 };
 </script>
 
