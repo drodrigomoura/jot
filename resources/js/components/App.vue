@@ -49,7 +49,7 @@
             <div class="tracking-wide pl-3">Contacts</div>
           </router-link>
           <router-link
-            to="/"
+            to="/birthdays"
             class="flex items-center py-2 hover:text-blue-600 text-sm"
           >
             <svg viewBox="0 0 24 24" class="fill-current text-blue-600 w-5 h-5">
@@ -84,7 +84,10 @@
           class="h-16 px-6 border-b border-gray-400 flex items-center justify-between"
         >
           <div>Lastest Contact</div>
-          <UserCircle :name="user.name" />
+          <div class="flex items-center">
+            <SearchBar/>
+            <UserCircle :name="user.name" />
+          </div>
         </div>
         <div class="flex flex-col overflow-y-hidden flex-1">
           <router-view class="p-6 overflow-x-hidden"></router-view>
@@ -96,6 +99,7 @@
 
 <script>
 import UserCircle from "./UserCircle";
+import SearchBar from "../components/SearchBar";
 export default {
   name: "App",
 
@@ -103,6 +107,7 @@ export default {
 
   components: {
     UserCircle,
+    SearchBar,
   },
 
   created() {

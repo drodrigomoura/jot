@@ -59,8 +59,6 @@ class ContactsTest extends TestCase
 
         $contact = Contact::first();
 
-        // dd(json_decode($response->getContent()));
-
         $this->assertEquals('Test Name', $contact->name);
         $this->assertEquals('test@email.com', $contact->email);
         $this->assertEquals('05/14/1988', $contact->birthday->format('m/d/Y'));
